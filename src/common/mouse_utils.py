@@ -5,8 +5,9 @@ import logging
 import asyncio
 import concurrent.futures
 from functools import partial
+import random
 
-from .geometry import fluctuate_number, distance, generate_bezier_curve, random_offset
+from .geometry import fluctuate_number, distance, generate_bezier_curve
 from .image_utils import ImageLocator
 from yolo.detect import ObjectDetector
 
@@ -69,6 +70,8 @@ class MouseUtils:
 
     @staticmethod
     def move_from_to(start_point, end_point, duration=0.8, holding=0.01):
+
+        
         d = fluctuate_number(duration)
         start_x, start_y = MouseUtils.radio_to_actual(*start_point)
         end_x, end_y = MouseUtils.radio_to_actual(*end_point)
@@ -83,12 +86,16 @@ class MouseUtils:
 
     @staticmethod
     def move(end_pos, duration=0.6):
-        duration = random_offset(duration)
+        position = pa.position()
+        if distance(position, end_pos) < 100:
+            return
+        
+        duration = fluctuate_number(duration)
         start_pos = pa.position()
         if start_pos == end_pos:
             return
             
-        pos_offset = random_offset(30)
+        pos_offset = fluctuate_number(30)
         end_pos = (end_pos[0] + pos_offset, end_pos[1] + pos_offset)
         dist = distance(start_pos, end_pos)
 
@@ -115,11 +122,13 @@ class MouseUtils:
     @staticmethod
     async def detect_best_direction():
         directions_config = [
-            ("left_up", MouseUtils.move_to_left_up, (0.153, 0.575), -0.75),
-            ("left_down", MouseUtils.move_to_left_down, (0.338, 0.65), 0.74),
-            ("right_up", MouseUtils.move_to_right_up, (0.657, 0.328), 0.74),
-            ("right_down", MouseUtils.move_to_right_down, (0.699, 0.509), -0.75)
+            ("left_up", MouseUtils.move_to_left_up, (0.355078125, 0.31805555555555554), -0.75),
+            ("left_down", MouseUtils.move_to_left_down, (0.345703125, 0.5472222222222223), 0.74),
+            ("right_up", MouseUtils.move_to_right_up, (0.669921875, 0.3638888888888889), 0.74),
+            ("right_down", MouseUtils.move_to_right_down, (0.701171875, 0.49444444444444446), -0.75)
         ]
+        random.shuffle(directions_config)
+        
         
         MAX_DISTANCE = MouseUtils.screen_height * 0.265
         results = {}
@@ -129,7 +138,6 @@ class MouseUtils:
             tasks = []
             
             for name, move_func, coords, slope in directions_config:
-                await asyncio.sleep(0.5)
                 move_func()
                 screenshot = pa.screenshot()
                 x, y = MouseUtils.radio_to_actual(*coords)

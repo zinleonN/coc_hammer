@@ -19,7 +19,7 @@ class ImageLocator:
     
     def locate_images(self, *image_names, confidence=0.8, color_sensitive=False, min_saturation=40):
         """定位图像，返回位置"""
-        pa.sleep(0.5)
+        pa.sleep(0.3)
         for name in image_names:
             path = self.image_path(name)
             if not path:
@@ -53,4 +53,5 @@ class ImageLocator:
                         mean_s = matched[...,1].mean()
                         if mean_s >= min_saturation:
                             return (left, top, w, h)
+        logging.warning(f"failed locate {name}")
         return None

@@ -96,7 +96,7 @@ class ObjectDetector:
             raw_distance = numerator / denominator
             
             # 应用类别权重
-            actual_distance = raw_distance * 0.5 if obj['class_name'] == 'elixir collector' else raw_distance
+            actual_distance = raw_distance * 0.3 if obj['class_name'] == 'elixir collector' else raw_distance
             
             # 计算映射点（垂足）
             # 使用向量投影公式计算垂足坐标
