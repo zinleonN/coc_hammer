@@ -43,10 +43,10 @@ class MouseUtils:
             center = pa.center(location)
             MouseUtils.move(center)
             pa.click()
-            return True
+            return center
         else:
-            logging.warning(f"Failed to find images: [{names_str}]")
-            return False
+            # logging.warning(f"Failed to find images: [{names_str}]")
+            return None
 
     @staticmethod
     def radio_to_actual(radio_x, radio_y):
@@ -70,11 +70,15 @@ class MouseUtils:
 
     @staticmethod
     def move_from_to(start_point, end_point, duration=0.8, holding=0.01):
-
-        
         d = fluctuate_number(duration)
-        start_x, start_y = MouseUtils.radio_to_actual(*start_point)
-        end_x, end_y = MouseUtils.radio_to_actual(*end_point)
+        if start_point[0] < 1:
+            start_x, start_y = MouseUtils.radio_to_actual(*start_point)
+        else:
+            start_x, start_y = start_point[0], start_point[1]
+        if end_point[0] < 1:
+            end_x, end_y = MouseUtils.radio_to_actual(*end_point)
+        else:
+            end_x, end_y = end_point[0], end_point[1]
         
         MouseUtils.move((start_x, start_y))
         pa.mouseDown()

@@ -12,6 +12,7 @@ from common.mouse_utils import MouseUtils
 from tasks.attack import AttackManager
 from tasks.donate import DonationManager
 
+
 def setup_logging():
     logging.basicConfig(
         level=logging.INFO,
@@ -31,8 +32,36 @@ def setup_logging():
 
 def main():
     setup_logging()
-    attack = AttackManager()
+    idle_counter = 0
+    MAX_IDLE_COUNT = 5
+    sleep_time = 5
+
+    attack = AttackManager()    
+    donate = DonationManager()
     attack.execute_attack()
+
+    while True:
+        if donate.process_donation():
+            logging.info("donated reset counter")
+            idle_counter = 0
+            sleep_time = 5
+        else:
+            idle_counter = idle_counter + 1
+
+        if idle_counter == 0:
+            logging.info("need resource")
+            attack.execute_attack()
+        if idle_counter >= MAX_IDLE_COUNT:
+            logging.info(f"long time no donation needs, sleep for {sleep_time}s")
+            time.sleep(sleep_time)
+            idle_counter = 0
+            if sleep_time <= 30: 
+                sleep_time += 2    
+            else:
+                attack.execute_attack()
+                sleep_time = 5
+
+        
 
 if __name__ == "__main__":
     main()

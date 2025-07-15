@@ -13,7 +13,8 @@ class AttackManager:
             "attack_army_dragon", "attack_army_super_goblin"
         ]
         self.attack_hero_names = [
-            "attack_hero_archer_queen", "attack_hero_minion_prince"
+            "attack_hero_archer_queen", "attack_hero_minion_prince",
+            "attack_hero_grand_warden"
         ]
 
     async def choose_suitable_attack_target(self):
