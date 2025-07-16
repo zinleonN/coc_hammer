@@ -16,8 +16,8 @@ from tasks.donate import DonationManager
 def setup_logging():
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        datefmt='%H:%M:%S'
     )
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
@@ -25,21 +25,26 @@ def setup_logging():
     # 创建文件处理器
     log_file = Path(__file__).parent / 'app.log'
     file_handler = logging.FileHandler(log_file, mode='w')
-    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))   
     logger.addHandler(file_handler)
     
     logging.info("Logging setup complete")
+
+def backToGame():
+    pa.hotkey('alt', 'tab')
 
 def main():
     setup_logging()
     idle_counter = 0
     MAX_IDLE_COUNT = 5
     sleep_time = 5
-
+    backToGame()
     attack = AttackManager()    
     donate = DonationManager()
     attack.execute_attack()
-
+    logging.info("this is a info message")
+    logging.debug("this is a debug message")
+    return
     while True:
         if donate.process_donation():
             logging.info("donated reset counter")
