@@ -47,7 +47,7 @@ class DonationManager:
         return True
 
     def process_donation(self):
-        logging.info("Starting donation sequence...")
+        logging.info("donate: Starting sequence...")
         need_resource = False
         
         if not MouseUtils.click_image("donate_start"):
@@ -62,3 +62,4 @@ class DonationManager:
             else:
                 MouseUtils.click_image("donate_back")
                 return need_resource
+        
