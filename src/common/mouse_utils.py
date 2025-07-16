@@ -33,7 +33,6 @@ class MouseUtils:
         if len(image_names) > max_names:
             names_str += ', ...'
             
-        logging.info(f"Attempting to click on images: [{names_str}]")
         location = MouseUtils.image_locator.locate_images(
             *image_names, 
             color_sensitive=color_sensitive
@@ -45,7 +44,7 @@ class MouseUtils:
             pa.click()
             return center
         else:
-            # logging.warning(f"Failed to find images: [{names_str}]")
+            logging.debug(f"Failed to find images: [{names_str}]")
             return None
 
     @staticmethod
@@ -154,11 +153,11 @@ class MouseUtils:
             
             for name, move_func, task in tasks:
                 distance_val, projected_points = await task
-                logging.info(f"{name.title().replace('_', ' ')}: {distance_val}")
+                logging.debug(f"{name.title().replace('_', ' ')}: {distance_val}")
                 results[name] = (distance_val, projected_points, move_func)
         
         if not results:
-            logging.info("No valid results found")
+            logging.debug("No valid results found")
             return None, []
         
         best_direction_name, (min_distance, min_projected_points, best_move_func) = min(
@@ -167,8 +166,8 @@ class MouseUtils:
         )
         
         if min_distance < MAX_DISTANCE:
-            logging.info(f"Best direction: {best_direction_name} with distance {min_distance}")
+            logging.debug(f"Best direction: {best_direction_name} with distance {min_distance}")
             return best_move_func, min_projected_points
         else:
-            logging.info(f"No valid direction (min distance {min_distance} >= {MAX_DISTANCE})")
+            logging.debug(f"No valid direction (min distance {min_distance} >= {MAX_DISTANCE})")
             return None, []

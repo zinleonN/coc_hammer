@@ -18,9 +18,10 @@ class AttackManager:
         ]
 
     async def choose_suitable_attack_target(self):
+        logging.info("attack: waitting the cloud...")
         while True:
             if not ImageLocator().locate_images("attack_next_target"):
-                logging.info("Waiting for next target button...")
+                logging.debug("Waiting for next target button...")
                 pa.sleep(1)
                 continue
                 
@@ -32,7 +33,7 @@ class AttackManager:
                 logging.info(f"Best move function: {move_func.__name__}")
                 return move_func, projected_points
                 
-            logging.info("No suitable attack target found. Trying next...")
+            logging.info("attack: No suitable attack target found. Trying next...")
             MouseUtils.click_image("attack_next_target")
 
     def place_armies(self, move_func, projected_points):
@@ -54,25 +55,25 @@ class AttackManager:
                 pa.click()
 
     def place_heroes(self, projected_points):
+        target_point = random.choice(projected_points)
+
         for hero_name in self.attack_hero_names:
             if MouseUtils.click_image(hero_name):
-                target_point = random.choice(projected_points)
-                pa.click(*target_point, duration=0.2)
+                pa.click(*target_point, duration=0.3)
 
     def execute_attack(self):
-        logging.info("Starting attack sequence...")
+        logging.info("attack: Starting sequence")
         
         if not MouseUtils.click_image("attack_1", "attack_2"):
             return False
-            
         if not MouseUtils.click_image("search_1"):
             return False
-            
         move_func, projected_points = asyncio.run(self.choose_suitable_attack_target())
+        
         self.place_armies(move_func, projected_points)
         self.place_heroes(projected_points)
-        
-        logging.info("Waiting for attack to complete...")
+    
+        logging.info("attack: Waiting for attack to complete...")
         while True:
             pa.sleep(6)
             if ImageLocator().locate_images("attack_back"):

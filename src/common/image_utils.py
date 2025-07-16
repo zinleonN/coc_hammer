@@ -53,5 +53,5 @@ class ImageLocator:
                         mean_s = matched[...,1].mean()
                         if mean_s >= min_saturation:
                             return (left, top, w, h)
-        logging.warning(f"failed locate {name}")
+        logging.debug(f"failed locate {name}")
         return None
