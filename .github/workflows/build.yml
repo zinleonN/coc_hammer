@@ -1,10 +1,9 @@
 name: Build and Release
 
 on:
-  pull_request: 
-    branches: [main]
   push:
-    branches: [main]
+    tags:
+      - 'v*'  # 只有 push tag（如 v1.0.0）时触发
 
 jobs: 
   build:
@@ -32,8 +31,9 @@ jobs:
         ls
         pyinstaller --onefile --add-data "src/resources/images/*:images/" --add-data "src/resources/*:./" src/main.py 
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v2
       with:
-        name: app-build
-        path: dist/
+        files: dist/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
