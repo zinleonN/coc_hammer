@@ -1,5 +1,6 @@
 import sys
 import os
+import json
 from pathlib import Path
 
 def path_locate(relative_path):
@@ -27,3 +28,12 @@ def resource_path(name):
         raise FileNotFoundError(f"文件不存在: {path}")
     
     return path
+
+def load_settings():
+    try:
+        with open(resource_path("settings.json"), "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return {}
+    
+    
