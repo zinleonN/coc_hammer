@@ -28,6 +28,7 @@ jobs:
 
     - name: Build executable
       run: |
+        pwd
         pyinstaller --onefile --add-data "src/resources/images/*:images/" --add-data "src/resources/*:./" src/main.py 
 
     - name: Upload artifact
