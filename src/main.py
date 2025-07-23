@@ -1,12 +1,8 @@
-from core.common.file import resource_path
-from core.common.log import setup_logging, get_logger
-from core.process.initial import t
+from ui.app import MyApp
 
-setup_logging()
+def main():
+    app = MyApp()
+    app.run()
 
-logger = get_logger()
-
-logger.info("this is a info message")
-logger.debug("this is a debug message")
-
-t()
+if __name__ == "__main__":
+    main()

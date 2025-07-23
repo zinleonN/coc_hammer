@@ -55,7 +55,6 @@ class MyApp(App):
             id="nav"
         )
 
-        # 页面主体
         self.content_area = Vertical(id="main-content")
         yield self.content_area
 
