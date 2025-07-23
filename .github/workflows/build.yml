@@ -27,9 +27,7 @@ jobs:
 
     - name: Build executable
       run: |
-        pwd
-        ls
-        pyinstaller --onefile --add-data "src/resources/images/*;images/" --add-data "src/resources/*;./" src/main.py 
+        pyinstaller --onefile --add-data "src/resources/images/*;images/" --add-data "src/resources/*;./" src/main.py --path src
 
     - name: Upload to GitHub Release
       uses: softprops/action-gh-release@v2

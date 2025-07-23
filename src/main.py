@@ -1,5 +1,12 @@
-from core.file import resource_path
+from core.common.file import resource_path
+from core.common.log import setup_logging, get_logger
+from core.process.initial import t
 
-print(resource_path("settings.json"))
+setup_logging()
 
-input("input some")
+logger = get_logger()
+
+logger.info("this is a info message")
+logger.debug("this is a debug message")
+
+t()

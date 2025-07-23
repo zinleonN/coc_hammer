@@ -5,7 +5,7 @@ from textual.containers import Horizontal, Vertical
 
 import asyncio
 
-from  as file
+import core.common.file as file
 
 class MyApp(App):
     CSS = """

@@ -36,4 +36,7 @@ def load_settings():
     except:
         return {}
     
-    
+def save_settings(settings: dict):
+    with open(resource_path("settings.json"), "w", encoding="utf-8") as f:
+        json.dump(settings, f, indent=4, ensure_ascii=False)
+
