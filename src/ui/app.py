@@ -71,7 +71,7 @@ class MyApp(App):
             return
         elif event.button.id == "init_back":
             self.pop_screen()
-        elif event.button.id == "init_success":
+        elif event.button.id == "init_start":
             self.inited = True
             initial()
             self.pop_screen()
@@ -127,39 +127,28 @@ class MyApp(App):
             # # yield Label(file.ascii_pic)
             # yield Markdown("""- 将游戏和运行的终端通过alt tab切换，返回终端""")
             yield Markdown("""
+# 初始化配置步骤
+
+### 画面设置
+                           
 - 设置屏幕游戏内分辨率与屏幕分辨率相同
-- 将每条边至少放上两个任意类型的采集器
-```
-                                       █  █                                                                      
-                                    ██      █                                                                
-                                  ██████     ██                                                              
-                                █    █     ██████                                                            
-                             █                     █                                                         
-                           █████                     █                                                       
-                         █ █████                       █                                                     
-                      █                                   █                                                   
-                    █                                  ██████                                                
-                  █                                      █    █                                              
-                █                                               █                                            
-              █                                                   █                                          
-                █ █████                                        █                                             
-                  ███                                        █                                               
-                     █   ██                                █                                                 
-                       ██████                       ███  █                                                   
-                         █                          ███                                                      
-                            █                       █                                                        
-                              █                   █                                                          
-                                █          ████ █                                                            
-                                   █         ███                                                               
-                                     █     █                                                                 
-                                       █ █        
-```                
 
+- 开启全屏
+                           
+### 地图边缘定位
+                           
+- 将所有采集器放置到四周，保持每条边至少放上两个任意类型的采集器
 
+### 其他
+
+- 将游戏和运行的终端通过 Alt + Tab 切换，返回终端
+                           
+- 点击开始按钮，开始定位
+                           
 """)
             yield Horizontal(
                 Button("返回", id="init_back", variant="default"),
-                Button("完成", id="init_success", variant="primary"),
+                Button("开始", id="init_start", variant="primary"),
                 classes="expand"
             )
             yield Footer()

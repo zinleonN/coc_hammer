@@ -6,8 +6,9 @@ logger = get_logger()
 def main():
     setup_logging()
     app = MyApp()
+    logger.info("程序开始运行")
     app.run()
 
+
 if __name__ == "__main__":
-    logger.info("开始")
     main()

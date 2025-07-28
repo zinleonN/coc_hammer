@@ -7,3 +7,4 @@ def t():
 
 def initial():
     logger.info("开始游戏参数初始化")
+    
