@@ -47,32 +47,3 @@ def save_settings(settings: dict):
             json.dump(settings, f, indent=4, ensure_ascii=False)
     except Exception as e:
         logger.debug(e)
-
-ascii_pic = """
-                                                                                                             
-                                                                                                             
-                                                                                                             
-                                       █  █                                                                      
-                                    ██      █                                                                
-                                  ██████     ██                                                              
-                                █    █     ██████                                                            
-                             █                     █                                                         
-                           █████                     █                                                       
-                         █ █████                       █                                                     
-                      █                                   █                                                   
-                    █                                  ██████                                                
-                  █                                      █    █                                              
-                █                                               █                                            
-              █                                                   █                                          
-                █ █████                                        █                                             
-                  ███                                        █                                               
-                     █   ██                                █                                                 
-                       ██████                       ███  █                                                   
-                         █                          ███                                                      
-                            █                       █                                                        
-                              █                   █                                                          
-                                █          ████ █                                                            
-                                   █         ███                                                               
-                                     █     █                                                                 
-                                       █ █                                                                             
-"""
