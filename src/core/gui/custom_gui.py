@@ -4,6 +4,7 @@ import time
 import numpy as np
 import pyautogui as pa
 import random
+import math
 from pathlib import Path
 from enum import Enum as enum
 
@@ -15,15 +16,25 @@ logger = get_logger()
 
 screen_width, screen_height = pa.size()
 
+
 class Direction(enum):
     LEFT_UP = (screen_width / 6 * 2, screen_height / 6 * 2)
     LEFT_DOWN = (screen_width / 6 * 2, screen_height / 6 * 4)
     RIGHT_UP = (screen_width / 6 * 4, screen_height / 6 * 2)
     RIGHT_DOWN = (screen_width / 6 * 4, screen_height / 6 * 4)
 
+class Corner(enum):
+    LEFT_UP = (0,0)
+    LEFT_DOWN = (0, screen_height)
+    RIGHT_UP = (screen_width, 0)
+    RIGHT_DOWN = (screen_width, screen_height)
+
 def sleep(n):
     n = fluctuate_number(n)
     time.sleep(n)
+
+def screenshot():
+    return pa.screenshot()
 
 def locate_images(*image_names, confidence=0.8, color_sensitive=False, min_saturation=40):
     sleep(0.2)
@@ -140,3 +151,22 @@ def move_to_direction(direction, duration=0.8):
         grag(Direction.RIGHT_UP.value, Direction.LEFT_DOWN.value, duration)
     elif direction == Direction.RIGHT_DOWN:
         grag(Direction.RIGHT_DOWN.value, Direction.LEFT_UP.value, duration)
+
+def sort_points_along_line(points, k, x0=None, y0=None):
+    import math
+
+    # 使用给定参考点，否则默认为屏幕中心
+    if x0 is None:
+        x0 = screen_width / 2
+    if y0 is None:
+        y0 = screen_height / 2
+
+    norm = math.sqrt(k**2 + 1)
+    dx, dy = 1 / norm, k / norm
+
+    def projection_scalar(pt):
+        vx = pt[0] - x0
+        vy = pt[1] - y0
+        return vx * dx + vy * dy
+
+    return sorted(points, key=projection_scalar)
